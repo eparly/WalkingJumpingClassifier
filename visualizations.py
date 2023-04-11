@@ -3,8 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-import h5py
+from sklearn.manifold import TSNE
+import seaborn as sns
 
+import h5py
 filename = "data.h5"
 f = h5py.File(filename, "r")
 
@@ -20,11 +22,17 @@ def scatterPlot(X, Y):
     fig, ax = plt.subplots()
     for i in range(0, 500):
         
-        if testData[i][5] == 1:
-            ax.scatter(testData[i][4], testData[i][3], c='red')
+        if Y[i] == 1:
+            #jumping
+            ax.scatter(X[i][0], X[i][2], c='red')
         else:
-            ax.scatter(testData[i][4], testData[i][3], c='blue')
-        
+            #walking
+            ax.scatter(X[i][0], X[i][2], c='blue')
+    #add legend where red = jumping, blue = walking
+    plt.legend(['Jumping', 'Walking'])
+    #add axis labels
+    plt.ylabel('Z Acceleration')
+    plt.xlabel('X Acceleration')
 
     plt.show()
 #--------------------------------------------------------------
@@ -40,7 +48,7 @@ def pcaScatter(X, Y):
     X = pca.fit_transform(X)
 
     fig, ax = plt.subplots()
-    for i in range(0, 4000):
+    for i in range(0, 1000):
             
             if Y[i] == 1:
                 ax.scatter(X[i][0], X[i][1], c='red')
@@ -127,11 +135,95 @@ def histograms(X, Y, axis):
     # Show the plot
     plt.show()
 
+#plot data using TSNE
+#--------------------------------------------------------------
+def tsnePlot(X, Y):
+    tsne = TSNE(n_components=2, perplexity=30, learning_rate='auto')
+    X= tsne.fit_transform(X)
+    fig, ax = plt.subplots()
+    for i in range(0, 100):
+            
+            if Y[i] == 1:
+                ax.scatter(X[i][0], X[i][1], c='red')
+            else:
+                ax.scatter(X[i][0], X[i][1], c='blue')
+    #add legend where red = jumping, blue = walking
+    plt.legend(['Jumping', 'Walking'])
+    #add labels for pca components
+    plt.xlabel('TSNE Component 1')
+    plt.ylabel('TSNE Component 2')
+    plt.show()
+
+#function to calculate standard deviation of each column, separated by label
+def stdDev(X, Y):
+    #separate data by label
+    walking = X[Y[:] == 0]
+    jumping = X[Y[:] == 1]
+    #calculate standard deviation of each column
+    std_walking = np.std(walking, axis=0)
+    std_jumping = np.std(jumping, axis=0)
+    #return a list of the standard deviations
+    return [std_walking[0], std_walking[1], std_walking[2], std_walking[3], std_jumping[0], std_jumping[1], std_jumping[2], std_jumping[3]]
+
+#function to plot the standard deviation of each column, separated by label
+def stdDevPlot(X, Y):
+    std_dev = stdDev(X , Y)
+    #create a list of the names of the columns
+    names = ['x_walking', 'y_walking', 'z_walking', 'abs_walking', 'x_jumping', 'y_jumping', 'z_jumping', 'abs_jumping']
+    #create a list of the standard deviations of the walking data
+    walking = [std_dev[0], std_dev[1], std_dev[2], std_dev[3]]
+    #create a list of the standard deviations of the jumping data
+    jumping = [std_dev[4], std_dev[5], std_dev[6], std_dev[7]]
+    #create a list of the x locations for the bars
+    x = np.arange(len(names))
+    #create the plot
+    fig, ax = plt.subplots()
+    #create the bars for the walking data
+    ax.bar(x, std_dev, 0.4)
+    #create the bars for the jumping data
+    #add labels and title
+    ax.set_ylabel('Standard Deviation')
+    ax.set_title('Standard Deviation of Walking and Jumping Data')
+    ax.set_xticks(x)
+    ax.set_xticklabels(names)
+    ax.legend()
+    #show the plot
+    plt.show()
+#--------------------------------------------------------------
+#plot correlation matrix between all columns, split into walking and jumping
+def correlationMatrix(X, Y):
+    #separate data by label
+    walking = X[Y[:] == 0]
+    jumping = X[Y[:] == 1]
+    #create a dataframe for the walking data
+    df_walking = pd.DataFrame(walking)
+    #create a dataframe for the jumping data
+    df_jumping = pd.DataFrame(jumping)
+    #create a correlation matrix for the walking data
+    corr_walking = df_walking.corr()
+    #create a correlation matrix for the jumping data
+    corr_jumping = df_jumping.corr()
+    #create a list of the names of the columns
+    names = ['x', 'y', 'z', 'abs']
+    #create the plot
+    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
+    #create the heatmap for the walking data
+    sns.heatmap(corr_walking, xticklabels=names, yticklabels=names, ax=ax1)
+    #create the heatmap for the jumping data
+    sns.heatmap(corr_jumping, xticklabels=names, yticklabels=names, ax=ax2)
+    #add labels and title
+    ax1.set_title('Walking Data Correlation Matrix')
+    ax2.set_title('Jumping Data Correlation Matrix')
+    #show the plot
+    plt.show()
+
+
 
 a=0
 # scatterPlot(X, Y)
-pcaScatter(X, Y)
-# lineplot(X, Y)
+# pcaScatter(X, Y)
 # histograms(X, Y, 'z')
+# stdDevPlot(X, Y)
+correlationMatrix(X, Y)
 
 
