@@ -20,28 +20,22 @@ from sklearn.decomposition import PCA
 # Best,
 # Ali
 
-def prepro(filename):
+def prepro(filename, set_type):
 
-    training_set = hdf_to_df(filename, "Train") 
-    test_set = hdf_to_df(filename, "Test")
+    theSet = hdf_to_df(filename, set_type) 
 
     # Note: Unsure what the value of the window size should be, we will have to do a plot and find the ideal
     # amount of smoothing
     window_size = 50
-    train_sma = training_set.rolling(window_size).mean()
-    test_sma = test_set.rolling(window_size).mean()
+    sma = theSet.rolling(window_size).mean()
 
     # Normalizing Data
 
-    X_train = train_sma.drop('label', axis=1)
-    X_test = test_sma.drop('label', axis=1)
+    X = sma.drop('label', axis=1)
 
-    norm_train = StandardScaler().fit_transform(X_train)     # normalize training data
-    norm_test = StandardScaler().fit_transform(X_test)       # normalize test data
+    norm_X = StandardScaler().fit_transform(X)
 
-    y_train = train_sma['label']   # labels for training set
-    y_test = test_sma['label']     # labels for test set
+    y = sma['label']   # labels for training set
 
-    return norm_train, norm_test, y_train, y_test
-
+    return norm_X, y
 
