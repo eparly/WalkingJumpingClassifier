@@ -13,7 +13,7 @@ def hdf_to_df(filename, type):
 
     #testdata contains windows of acceleration samples
     #The last column is the label: 1 for jumping, 0 for walking
-    testData = f['dataset']['Test']['windows']
+    testData = f['dataset'][type]['windows']
     X = testData[:, 0:-1]
     Y = testData[:, -1]
     
