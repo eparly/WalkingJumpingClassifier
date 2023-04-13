@@ -12,9 +12,7 @@ from sklearn.decomposition import PCA
 features = norm_train.DataFrame(columns=['mean', 'median', 'std', 'max', 'min', 'range', 'variance', 'kurtosis', 'skew', 'mode'])
 
 # window size
-window_size = 125
-
-max_index = 1000 # Sub in for real value
+window_size = 125x
 
 features['mean'] = norm_train[1, : 4].rolling(window=window_size).mean()
 features['median'] = norm_train[1, : 4].rolling(window=window_size).median()
@@ -26,3 +24,6 @@ features['variance'] = norm_train[1, : 4].rolling(window=window_size).var()
 features['kurtosis'] = norm_train[1, : 4].rolling(window=window_size).kurt()
 features['skew'] = norm_train[1, : 4].rolling(window=window_size).skew()
 features['mode'] = norm_train[1, : 4].rolling(window=window_size).mode()
+
+features = features.dropna()
+
