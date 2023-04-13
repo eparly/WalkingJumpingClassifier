@@ -30,13 +30,13 @@ ds_sma = training_set.rolling(window_size).mean()   # only smooth training set a
 
 # Normalizing Data
 
-data_train = ds_sma.drop('label', axis=1)
-data_test = test_set.drop('label', axis=1)
+X_train = ds_sma.drop('label', axis=1)
+X_test = test_set.drop('label', axis=1)
 
-norm_train = StandardScaler().fit_transform(data_train)     # normalize training data
-norm_test = StandardScaler().fit_transform(data_test)       # normalize test data
+norm_train = StandardScaler().fit_transform(X_train)     # normalize training data
+norm_test = StandardScaler().fit_transform(X_test)       # normalize test data
 
-train_labels = ds_sma['label']      # labels for training set
-test_labels = test_set['label']     # labels for test set
+y_train = ds_sma['label']      # labels for training set
+y_test = test_set['label']     # labels for test set
 
 

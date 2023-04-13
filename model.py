@@ -18,10 +18,10 @@ l_reg = LogisticRegression(max_iter=10000)
 clf = make_pipeline(StandardScaler(), l_reg)
 
 # fit into classifier
-clf.fit(X_train, y_train)
+clf.fit(features, y_train)
 
 # obtain predictions and probabilities
-y_pred = clf.predict(X_test)
+y_pred = clf.predict(features)
 y_clf_prob = clf.predict_proba(X_test)
 
 # accuracy & recall
@@ -34,7 +34,7 @@ cm = confusion_matrix(y_test, y_pred)
 cm_display = ConfusionMatrixDisplay(cm).plot()
 # cm_display.show()
 
-# ROC
+# ROC 
 fpr, tpr = roc_curve(y_test, y_clf_prob[:, 1], pos_label = clf.classes_[1])
 roc_display = RocCurveDisplay(fpr=fpr, tpr=tpr).plot()
 # roc_display.show()
