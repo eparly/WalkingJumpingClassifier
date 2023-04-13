@@ -1,29 +1,31 @@
-from prepro import *
 import pandas as pd
-import numpy as np
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split 
-from sklearn.metrics import accuracy_score
-from sklearn.pipeline import make_pipeline
-from sklearn.linear_model import LogisticRegression 
-from sklearn.inspection import DecisionBoundaryDisplay 
-from sklearn.decomposition import PCA
 
-features = norm_train.DataFrame(columns=['mean', 'median', 'std', 'max', 'min', 'range', 'variance', 'kurtosis', 'skew', 'mode'])
+def featureExtract(norm_train):
 
-# window size
-window_size = 125
+    features = pd.DataFrame()
 
-features['mean'] = norm_train[1, : 4].rolling(window=window_size).mean()
-features['median'] = norm_train[1, : 4].rolling(window=window_size).median()
-features['std'] = norm_train[1, : 4].rolling(window=window_size).std()
-features['max'] = norm_train[1, : 4].rolling(window=window_size).max()
-features['min'] = norm_train[1, : 4].rolling(window=window_size).min()
-features['range'] = norm_train[1, : 4].rolling(window=window_size).range()
-features['variance'] = norm_train[1, : 4].rolling(window=window_size).var()
-features['kurtosis'] = norm_train[1, : 4].rolling(window=window_size).kurt()
-features['skew'] = norm_train[1, : 4].rolling(window=window_size).skew()
-features['mode'] = norm_train[1, : 4].rolling(window=window_size).mode()
+    norm_train = pd.DataFrame(norm_train).dropna()
+    
+    # window size
+    window_size = 500
+    overlap=100
 
-features = features.dropna()
+    features['x_mean'] = norm_train.iloc[:, 1].rolling(window=window_size).mean()
+    features['x_std'] = norm_train.iloc[:, 1].rolling(window=window_size).std()
+    features['x_variance'] = norm_train.iloc[:, 1].rolling(window=window_size).var()
+    features['x_kurtosis'] = norm_train.iloc[:, 1].rolling(window=window_size).kurt()
+    features['x_skew'] = norm_train.iloc[:, 1].rolling(window=window_size).skew()
+    features['y_mean'] = norm_train.iloc[:, 2].rolling(window=window_size).mean()
+    features['y_std'] = norm_train.iloc[:, 2].rolling(window=window_size).std()
+    features['y_variance'] = norm_train.iloc[:, 2].rolling(window=window_size).var()
+    features['y_kurtosis'] = norm_train.iloc[:, 2].rolling(window=window_size).kurt()
+    features['y_skew'] = norm_train.iloc[:, 2].rolling(window=window_size).skew()
+    features['z_mean'] = norm_train.iloc[:, 3].rolling(window=window_size).mean()
+    features['z_std'] = norm_train.iloc[:, 3].rolling(window=window_size).std()
+    features['z_variance'] = norm_train.iloc[:, 3].rolling(window=window_size).var()
+    features['z_kurtosis'] = norm_train.iloc[:, 3].rolling(window=window_size).kurt()
+    features['z_skew'] = norm_train.iloc[:, 3].rolling(window=window_size).skew()
 
+    features = features.dropna()
+
+    return features
