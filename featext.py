@@ -4,7 +4,7 @@ def featureExtract(norm_train):
 
     features = pd.DataFrame()
 
-    norm_train = pd.DataFrame(norm_train).dropna()
+    norm_train = pd.DataFrame(norm_train)
     
     # window size
     window_size = 500
@@ -26,6 +26,6 @@ def featureExtract(norm_train):
     features['z_kurtosis'] = norm_train.iloc[:, 3].rolling(window=window_size).kurt()
     features['z_skew'] = norm_train.iloc[:, 3].rolling(window=window_size).skew()
 
-    features = features.dropna()
+    features = features.fillna(0)
 
     return features

@@ -24,11 +24,11 @@ def prepro2(filename):
 
     # Normalizing Data
 
-    X = sma.drop('label', axis=1)
+    X = sma
 
     norm_X = StandardScaler().fit_transform(X)
 
-    y = sma['label']   # labels for training set
 
-    return norm_X, y
+
+    return norm_X
 

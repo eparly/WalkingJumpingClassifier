@@ -9,6 +9,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import recall_score
+import pickle
 
 def runmodel(train_features, y_train, test_features, y_test):
 
@@ -34,10 +35,18 @@ def runmodel(train_features, y_train, test_features, y_test):
     # cm_display.show()
 
     # ROC 
-    fpr, tpr = roc_curve(y_test, y_clf_prob[:, 1], pos_label = clf.classes_[1])
+    fpr, tpr, _ = roc_curve(y_test, y_clf_prob[:, 1], pos_label = clf.classes_[1])
     roc_display = RocCurveDisplay(fpr=fpr, tpr=tpr).plot()
     # roc_display.show()
 
     # AUC
 
     auc = roc_auc_score(y_test, y_clf_prob[:,1])
+    pickle.dump(clf, open("model.pkl", "wb"))
+
+#make a prediction
+def predict(Features):
+    clf = pickle.load(open("model.pkl", "rb"))
+    y_pred = clf.predict(Features)
+
+    return y_pred

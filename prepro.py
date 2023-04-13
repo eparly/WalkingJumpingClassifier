@@ -29,7 +29,7 @@ def prepro(filename, set_type):
 
     norm_X = StandardScaler().fit_transform(X)
 
-    y = sma['label']   # labels for training set
+    y = theSet['label']   # labels for training set
 
     return norm_X, y
 

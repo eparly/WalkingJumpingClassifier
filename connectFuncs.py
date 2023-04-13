@@ -1,7 +1,7 @@
 from prepro import prepro
 from prepro2 import prepro2
 from featext import featureExtract
-from model import runmodel
+from model import runmodel, predict
 
 # Generate original model:
 
@@ -14,7 +14,9 @@ test_features = featureExtract(test_pre[0]) # feature extraction of test set
 runmodel(train_features, train_pre[1], test_features, test_pre[1])
 
 
-csv_test_pre = prepro2("xxxxx.csv")                 # [0] is norm_csvtest_X, [1] is y_csvtest
-csv_test_features = featureExtract(csv_test_pre[0])    # feature extraction of csv test set
+# [0] is norm_csvtest_X, [1] is y_csvtest
+csv_test_pre = prepro2("Data/Jumping_Data/Ethan/ethanJumping.csv")
+csv_test_features = featureExtract(csv_test_pre)    # feature extraction of csv test set
 
-runmodel(train_features, train_pre[1], csv_test_features, csv_test_pre[1])
+# runmodel(train_features, train_pre[1], csv_test_features, csv_test_pre[1])
+predict(csv_test_features)
