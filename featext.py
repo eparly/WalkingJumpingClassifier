@@ -12,7 +12,7 @@ from sklearn.decomposition import PCA
 features = norm_train.DataFrame(columns=['mean', 'median', 'std', 'max', 'min', 'range', 'variance', 'kurtosis', 'skew', 'mode'])
 
 # window size
-window_size = 125x
+window_size = 125
 
 features['mean'] = norm_train[1, : 4].rolling(window=window_size).mean()
 features['median'] = norm_train[1, : 4].rolling(window=window_size).median()
