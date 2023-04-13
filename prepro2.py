@@ -1,4 +1,3 @@
-from hdf_to_df import *
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
@@ -14,9 +13,9 @@ from sklearn.preprocessing import StandardScaler
 # Best,
 # Ali
 
-def prepro(filename, set_type):
+def prepro2(filename):
 
-    theSet = hdf_to_df(filename, set_type) 
+    theSet = pd.read_csv(filename)
 
     # Note: Unsure what the value of the window size should be, we will have to do a plot and find the ideal
     # amount of smoothing
