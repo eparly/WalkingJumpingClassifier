@@ -52,13 +52,16 @@ data = pd.concat([dataWalking, dataJumping])
 # convert labels of walking = 0, jumping = 1
 data.loc[data['activity'] == 'walking', 'activity'] = 0
 data.loc[data['activity'] == 'jumping', 'activity'] = 1
-data = data.astype('float64')
-window_size = 500  # 100 Hz, 5 seconds = 500 samples
-overlap = 100
-rolling_windows = data.rolling(window_size, overlap)
-windows_array = np.array(list(rolling_windows), dtype=object)
-windows_concatenated = np.concatenate(windows_array, axis=0)
-train_windows, test_windows = train_test_split(windows_concatenated, test_size=0.1, random_state=42)
+data_prior = data.astype('float64')
+windowSize = 500
+data = []
+for i in range(0, len(data_prior), windowSize):
+    data_window = data_prior.iloc[i:i+windowSize]
+    data.append(data_window)
+
+if len(data[-1]) < windowSize:
+    data.pop()
+train_windows, test_windows = train_test_split(data, test_size=0.1, shuffle=True, random_state=42)
 
 with h5py.File("data.h5", 'w') as hdf:
     groupJacob = hdf.create_group('/Jacob')
