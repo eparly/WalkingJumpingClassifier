@@ -1,8 +1,5 @@
-from featext import *
-from prepro import *
-
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
+# from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
@@ -13,32 +10,34 @@ from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import recall_score
 
-# instantiante regression and clf
-l_reg = LogisticRegression(max_iter=10000)
-clf = make_pipeline(StandardScaler(), l_reg)
+def runmodel(train_features, y_train, test_features, y_test):
 
-# fit into classifier
-clf.fit(features, y_train)
+    # instantiate regression and clf
+    l_reg = LogisticRegression(max_iter=10000)
+    clf = make_pipeline(StandardScaler(), l_reg)
 
-# obtain predictions and probabilities
-y_pred = clf.predict(features)
-y_clf_prob = clf.predict_proba(X_test)
+    # fit into classifier
+    clf.fit(train_features, y_train)
 
-# accuracy & recall
-acc = accuracy_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
+    # obtain predictions and probabilities
+    y_pred = clf.predict(test_features)
+    y_clf_prob = clf.predict_proba(test_features)
 
-# confusion matrix
+    # accuracy & recall
+    acc = accuracy_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
 
-cm = confusion_matrix(y_test, y_pred)
-cm_display = ConfusionMatrixDisplay(cm).plot()
-# cm_display.show()
+    # confusion matrix
 
-# ROC 
-fpr, tpr = roc_curve(y_test, y_clf_prob[:, 1], pos_label = clf.classes_[1])
-roc_display = RocCurveDisplay(fpr=fpr, tpr=tpr).plot()
-# roc_display.show()
+    cm = confusion_matrix(y_test, y_pred)
+    cm_display = ConfusionMatrixDisplay(cm).plot()
+    # cm_display.show()
 
-# AUC
+    # ROC 
+    fpr, tpr = roc_curve(y_test, y_clf_prob[:, 1], pos_label = clf.classes_[1])
+    roc_display = RocCurveDisplay(fpr=fpr, tpr=tpr).plot()
+    # roc_display.show()
 
-auc = roc_auc_score(y_test, y_clf_prob[:,1])
+    # AUC
+
+    auc = roc_auc_score(y_test, y_clf_prob[:,1])
