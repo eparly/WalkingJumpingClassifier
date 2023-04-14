@@ -18,5 +18,3 @@ def hdf_to_df(filename, type):
         df_list.append(df)
 
     return df_list
-
-hdf_to_df('data.h5', 'Test')

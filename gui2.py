@@ -3,8 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from tkinter.filedialog import askopenfilename
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from visualizations import pcaScatter
-from hdf_to_df import hdf_to_df
+from connectFuncs import guiFile
 
 
 
@@ -49,6 +48,8 @@ class PlotterGUI:
         # resize the canvas to fit the plot
         self.plot_widget.get_tk_widget().pack(side='top', fill='both', expand=1)
         self.canvas.config(scrollregion=self.canvas.bbox('all'))
+
+        guiFile(filename)
 
 
 

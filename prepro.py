@@ -1,4 +1,4 @@
-from hdf_to_df import *
+from hdf_to_df import hdf_to_df
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler

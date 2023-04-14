@@ -5,6 +5,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.manifold import TSNE
 import seaborn as sns
+from connectFuncs import test_features
 
 import h5py
 filename = "data.h5"
@@ -216,6 +217,11 @@ def correlationMatrix(X, Y):
     ax2.set_title('Jumping Data Correlation Matrix')
     #show the plot
     plt.show()
+
+#--------------------------------------------------------------
+#plot test_features
+def plotFeat(X, Y):
+    a=0
 
 
 

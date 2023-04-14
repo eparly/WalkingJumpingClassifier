@@ -7,19 +7,19 @@ from sklearn.model_selection import train_test_split
 
 # Get walking data
 jacobWalking = glob.glob(
-    "/Users/johndoe/OneDrive - Queen\'s University/Courses/Year 3/ELEC 390/Project/Data/Walking_Data/Jacob/*.csv")
+    "Data/Walking_Data/Jacob/*.csv")
 vidWalking = glob.glob(
-    "/Users/johndoe/OneDrive - Queen\'s University/Courses/Year 3/ELEC 390/Project/Data/Walking_Data/Vid/*.csv")
+    "Data/Walking_Data/Vid/*.csv")
 ethanWalking = glob.glob(
-    "/Users/johndoe/OneDrive - Queen\'s University/Courses/Year 3/ELEC 390/Project/Data/Walking_Data/Ethan/*.csv")
+    "Data/Walking_Data/Ethan/*.csv")
 
 # Get jumping data
 jacobJumping = glob.glob(
-    "/Users/johndoe/OneDrive - Queen\'s University/Courses/Year 3/ELEC 390/Project/Data/Jumping_Data/Jacob/*.csv")
+    "Data/Jumping_Data/Jacob/*.csv")
 vidJumping = glob.glob(
-    "/Users/johndoe/OneDrive - Queen\'s University/Courses/Year 3/ELEC 390/Project/Data/Jumping_Data/Vid/*.csv")
+    "Data/Jumping_Data/*.csv")
 ethanJumping = glob.glob(
-    "/Users/johndoe/OneDrive - Queen\'s University/Courses/Year 3/ELEC 390/Project/Data/Jumping_Data/Ethan/*.csv")
+    "Data/Jumping_Data/*.csv")
 
 
 # label walking and jumping data with either walking or jumping column
@@ -63,7 +63,7 @@ if len(data[-1]) < windowSize:
     data.pop()
 train_windows, test_windows = train_test_split(data, test_size=0.1, shuffle=True, random_state=42)
 
-with h5py.File("data.h5", 'w') as hdf:
+with h5py.File("data4.h5", 'w') as hdf:
     groupJacob = hdf.create_group('/Jacob')
     groupEthan = hdf.create_group('/Ethan')
     groupVid = hdf.create_group('/Vid')
