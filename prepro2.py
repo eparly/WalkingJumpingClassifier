@@ -16,19 +16,25 @@ from sklearn.preprocessing import StandardScaler
 def prepro2(filename):
 
     theSet = pd.read_csv(filename)
+    windowSize = 500
+    data = theSet
+    data_prior = data.astype('float64')
+    data = []
+    for i in range(0, len(data_prior), windowSize):
+        data_window = data_prior.iloc[i:i + windowSize]
+        data.append(data_window)
 
-    # Note: Unsure what the value of the window size should be, we will have to do a plot and find the ideal
-    # amount of smoothing
-    window_size = 50
-    sma = theSet.rolling(window_size).mean()
+    if len(data[-1]) < windowSize:
+        data.pop()
 
-    # Normalizing Data
-
-    X = sma
-
-    norm_X = StandardScaler().fit_transform(X)
-
-
+    theSet = data
+    window_size = 61
+    norm_X = []
+    labels = []
+    for i in range(len(theSet)):
+        df = theSet[i].rolling(window_size).mean()
+        norm_X.append(df)
 
     return norm_X
+
 

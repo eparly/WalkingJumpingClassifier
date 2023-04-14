@@ -16,20 +16,16 @@ from sklearn.preprocessing import StandardScaler
 
 def prepro(filename, set_type):
 
-    theSet = hdf_to_df(filename, set_type) 
-
+    theSet = hdf_to_df(filename, set_type)
     # Note: Unsure what the value of the window size should be, we will have to do a plot and find the ideal
     # amount of smoothing
-    window_size = 50
-    sma = theSet.rolling(window_size).mean()
+    window_size = 61
+    norm_X = []
+    labels = []
+    for i in range(len(theSet)):
+        df = theSet[i].rolling(window_size).mean()
+        labels.append(df.iloc[61, -1])
+        norm_X.append(df)
 
-    # Normalizing Data
-
-    X = sma.drop('label', axis=1)
-
-    norm_X = StandardScaler().fit_transform(X)
-
-    y = theSet['label']   # labels for training set
-
-    return norm_X, y
+    return norm_X, labels
 
