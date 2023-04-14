@@ -1,5 +1,6 @@
 import h5py
 import pandas as pd
+import numpy as np
 #to use this function in your python scripts, use this line of code
 #from hdf_to_df import hdf_to_df
 #then call the function with the following line of code
@@ -10,15 +11,12 @@ import pandas as pd
 #return a pandas dataframe
 def hdf_to_df(filename, type):
     f = h5py.File(filename, "r")
+    data = f['dataset'][type]['windows']
+    df_list = []
+    for i in range(data.shape[0]):
+        df = pd.DataFrame(data[i,:,:])
+        df_list.append(df)
 
-    #testdata contains windows of acceleration samples
-    #The last column is the label: 1 for jumping, 0 for walking
-    testData = f['dataset'][type]['windows']
-    X = testData[:, 0:-1]
-    Y = testData[:, -1]
-    
-    #create a pandas dataframe
-    df = pd.DataFrame(X)
-    df['label'] = Y
-    return df
+    return df_list
 
+hdf_to_df('data.h5', 'Test')
