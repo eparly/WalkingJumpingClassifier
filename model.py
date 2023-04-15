@@ -50,4 +50,10 @@ def predict(Features):
     clf = pickle.load(open("model.pkl", "rb"))
     y_pred = clf.predict(Features)
 
+    for i in range(len(y_pred)):
+        if y_pred[i] == 1:
+            print("Window ", i, ": Jumping")
+        else:
+            print("Window ", i, ": Walking")
+    
     return y_pred

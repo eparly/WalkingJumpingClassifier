@@ -5,7 +5,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.manifold import TSNE
 import seaborn as sns
-from connectFuncs import test_features
+from connectFuncs import guiFile
 
 import h5py
 filename = "data.h5"
@@ -219,17 +219,47 @@ def correlationMatrix(X, Y):
     plt.show()
 
 #--------------------------------------------------------------
-#plot test_features
-def plotFeat(X, Y):
+#plot predictions vs raw data
+def plotPredictions(filename):
+    predictions, _ = guiFile(filename) #returns an array of 1s and 0s
+    data = pd.read_csv(filename)
+    # assuming a sampling rate of 1 Hz
+    time = np.arange(0, len(data)) * 5
+  
+
+
+    # plot the acceleration data and prediction labels
+    fig, ax = plt.subplots()
+    
+        
+    x = data.loc[:, 'Linear Acceleration x (m/s^2)']
+    y = data.loc[:, 'Linear Acceleration y (m/s^2)']
+    z = data.loc[:, 'Linear Acceleration z (m/s^2)']
+    abs = data.loc[:, 'Absolute acceleration (m/s^2)']
+
+    ax.plot(time, x, color='r', label='x')
+    ax.plot(time, y, color='blue', label='y')
+    ax.plot(time, z, color='g', label='z')
+    ax.set_xlabel('Time (ms)')
+    ax.set_ylabel('Acceleration (m/s^2)')
+    ax.legend()
+    plt.show()
     a=0
+    return fig
+ 
+
+  
+
 
 
 
 a=0
 # scatterPlot(X, Y)
-# pcaScatter(X, Y)
-# histograms(X, Y, 'z')
+# # pcaScatter(X, Y)
+# histograms(X, Y, 'x')
+# histograms(X, Y, 'y')
 # stdDevPlot(X, Y)
-correlationMatrix(X, Y)
+# correlationMatrix(X, Y)
+# plotPredictions("Raw Data.csv")
 
 

@@ -28,5 +28,6 @@ def guiFile(filename):
     new = pd.concat([df, pd.Series(new_column, name='Predictions')], axis=1)
     new.to_csv('predictedData.csv', index=False)
     print(predictions)
+    return new_column, predictions
 
 # guiFile("/Users/johndoe/Library/CloudStorage/OneDrive-Queen'sUniversity/Courses/Year 3/ELEC 390/Project/PyCharm/Data/Walking_Data/Jacob/jdata1.csv")
